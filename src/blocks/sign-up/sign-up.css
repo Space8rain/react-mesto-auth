@@ -1,0 +1,8 @@
+.sign-up {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 358px;
+  /* border: red solid 1px; */
+}

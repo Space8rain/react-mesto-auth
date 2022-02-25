@@ -1,0 +1,16 @@
+.sign-up__link {
+  font-family: 'Inter', 'Arial', 'sans-serif';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #fff;
+  text-align: center;
+  transition: .4s;
+  margin: 0 auto;
+}
+
+.sign-up__link:hover {
+  cursor: pointer;
+  opacity: .8;
+}
