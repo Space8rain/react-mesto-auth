@@ -1,6 +1,6 @@
 // import './App.css';
 import React from 'react'
-import { Route, Switch, Redirect, useHistory } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import Header from './Header'
 import Main from './Main'
@@ -162,7 +162,7 @@ function App() {
 
   // Проверка токена в локальном хранилище
   React.useEffect(() => {
-    tokenCheck();
+    CheckToken();
   }, [loggedIn]);
 
   // Отправляем данные нового пользователя и отображаем статус
@@ -210,7 +210,7 @@ function App() {
   }
 
   // Проверка токена для автоматического входа
-  function tokenCheck() {
+  function CheckToken() {
     const jwt = localStorage.getItem('jwt')
     if (jwt) {
       ApiAuth.checkToken(jwt)

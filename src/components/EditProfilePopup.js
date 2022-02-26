@@ -45,23 +45,24 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       >
       <div className="popup__input-container">
         <input 
-          required minLength="2"
+          required
+          minLength="2"
           maxLength="40"
-          type="text"
           className="popup__input popup__input_type_name"
-          name="profileName" id="newName"
+          name="profileName"
+          id="newName"
           placeholder="Имя"
           value={name || ''}
           onChange={handleNameChange}
         />
-        <span className="newName-error popup__input-error">{name}</span>
+        <span className="newName-error popup__input-error"></span>
       </div>
 
       <div className="popup__input-container">
         <input
-          required minLength="2"
+          required
+          minLength="2"
           maxLength="200"
-          type="text"
           className="popup__input"
           name="profileActivity"
           id="newActivity"
@@ -69,7 +70,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
           value={description || ''}
           onChange={handleDescriptionChange}
         />
-        <span className="newActivity-error popup__input-error">{description}</span>
+        <span className="newActivity-error popup__input-error"></span>
       </div>
     </PopupWithForm>
   )
