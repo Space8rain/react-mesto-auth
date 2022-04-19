@@ -1,12 +1,15 @@
-export const BASE_URL = 'https://auth.nomoreparties.co/'
+// export const BASE_URL = 'https://auth.nomoreparties.co/'
+// export const BASE_URL = 'https://api.itbro.su/'
+export const BASE_URL = 'http://localhost:3000/'
 
 // Универсальный запрос
-const request = ({ url, token, body, method='POST' }) => {
+const request = ({ url, body, method='POST' }) => {
   const config = {
+    credentials: 'include',
     method,
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
-      ...(!!token && { Authorization: `Bearer ${token}` }),
     },
     ...(!!body && { body: JSON.stringify(body) })
   }
@@ -32,11 +35,12 @@ export const authorize = (email, password) => {
     url: 'signin',
     body: { email, password },
   })
-  .then((res) => {
-    if (res.token) {
-      localStorage.setItem('jwt', res.token)
-      return res;
-    }
+}
+
+export const getContent = () => {
+  return request({
+    url: 'users/me',
+    method: 'GET'
   })
 }
 
@@ -46,5 +50,12 @@ export const checkToken = (token) => {
     url: 'users/me',
     method: 'GET',
     token,
+  })
+}
+
+export const logOut = () => {
+  return request({
+    url: 'logout',
+    method: 'DELETE',
   })
 }

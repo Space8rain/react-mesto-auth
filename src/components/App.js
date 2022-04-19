@@ -1,5 +1,5 @@
 // import './App.css';
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Route, Switch, useHistory } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import Header from './Header'
@@ -160,10 +160,24 @@ function App() {
       })
   }, [])
 
+  const CheckToken = useCallback(() => {
+    ApiAuth.getContent()
+      .then((res) => {
+        if (res) {
+          setLoggedIn(true)
+          setUserEmail(res.data.email)
+          history.push('/')
+        }
+      })
+      .catch(() => {
+        setLoggedIn(false)
+      })
+  }, [setUserEmail, setLoggedIn, history])
+
   // Проверка токена в локальном хранилище
   React.useEffect(() => {
     CheckToken();
-  }, [loggedIn]);
+  }, [CheckToken]);
 
   // Отправляем данные нового пользователя и отображаем статус
   function handleRegister(email, password) {
@@ -185,10 +199,10 @@ function App() {
 
   //  Авторизуем пользователя
   function handleAuthorization(email, password) {
+    if (!email || !password) return;
     ApiAuth.authorize(email, password)
-      .then((res) => {
-        if (res.token) {
-          localStorage.setItem('jwt', res.token)
+      .then(({ message }) => {
+        if (message) {
           setLoggedIn(true)
           setUserEmail(email)
           history.push('/')
@@ -203,28 +217,10 @@ function App() {
 
   //Выход из аккаунта
   function handleLogOut() {
-    localStorage.removeItem('jwt')
+    ApiAuth.logOut();
     setLoggedIn(false)
     setUserEmail('')
-    history.push('/sign-in')
-  }
-
-  // Проверка токена для автоматического входа
-  function CheckToken() {
-    const jwt = localStorage.getItem('jwt')
-    if (jwt) {
-      ApiAuth.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true)
-            setUserEmail(res.data.email)
-            history.push('/')
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+    // history.push('/sign-in')
   }
 
   // Рендер
@@ -233,7 +229,7 @@ function App() {
       <div className="App">
         <div className="page">
 
-        <Header userEmail={userEmail} onLogOut={handleLogOut}/>
+        <Header loggedIn={loggedIn} userEmail={userEmail} onLogOut={handleLogOut}/>
         <Switch>
           <ProtectedRoute
             onEditAvatar={handleEditAvatarClick}

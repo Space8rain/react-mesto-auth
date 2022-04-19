@@ -1,3 +1,5 @@
+import { BASE_URL } from './ApiAuth'
+
 class Api {
   constructor(options) {
     this._url = options.url;
@@ -108,13 +110,11 @@ class Api {
 }
 
 const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-33/',
+  url: BASE_URL,
   headers: {
-    authorization: 'bd428fae-42b0-4e58-99f1-8231c317d8e5',
+    // authorization: 'bd428fae-42b0-4e58-99f1-8231c317d8e5',
     "content-type": "application/json"
   }
 })
 
 export default api
-
-
